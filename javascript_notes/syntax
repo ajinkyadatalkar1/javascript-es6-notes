@@ -1,0 +1,257 @@
+JavaScript Notes:
+----------------------------------------------------------------------------------------------------
+1) Semicolon is not compulsary at the end.
+2) You can store function calls in an array and call them as:
+	-Example:
+		var items = ["toys",42,hello()];
+	-You can store data of multiple types in a single array. And you can retrive that data as
+	follows:
+		items[0]
+		items[1]
+		items[2]()
+	-Here the last line "items[2]()" will execute the function "hello()".
+
+----------------------------------------------------------------------------------------------------
+Difference between LET and VAR
+
+VAR: 
+<script>
+function discountPrices (prices, discount) {
+  let discounted = []
+
+  for (var i = 0; i < prices.length; i++) {
+    var discountedPrice = prices[i] * (1 - discount)
+    var finalPrice = Math.round(discountedPrice * 100) / 100
+    discounted.push(finalPrice)
+  }
+
+  console.log(i) // 3
+  console.log(discountedPrice) // 150
+  console.log(finalPrice) // 150
+
+  return discounted
+}
+
+discountPrices([100, 200, 300], .5)
+</script>
+
+OUTPUT:
+3
+150
+150
+
+
+LET:
+<script>
+function discountPrices (prices, discount) {
+  let discounted = []
+
+  for (let i = 0; i < prices.length; i++) {
+    let discountedPrice = prices[i] * (1 - discount)
+    let finalPrice = Math.round(discountedPrice * 100) / 100
+    discounted.push(finalPrice)
+  }
+
+  console.log(i) // 3
+  console.log(discountedPrice) // 150
+  console.log(finalPrice) // 150
+
+  return discounted
+}
+
+discountPrices([100, 200, 300], .5)
+</script>
+
+OUTPUT:
+ReferenceError: i is not defined
+
+Explaination:
+
+The main difference between var and let is that instead of being function scoped, let is block scoped.
+So in the above examples the variables i, discountedPrice and finalPrice are available outside the for
+loop only if they are declared as "var" and not as "let".
+
+In the above examples the variables declared as "var" are available inside the functions and not globally.
+
+VAR VS LET
+VAR: 
+1) Function scoped
+2) Undefined when accessing a variable before it's declared
+
+LET:
+1) Block scoped
+2) ReferenceError when accessing a variable before it's declared
+
+----------------------------------------------------------------------------------------------------
+
+Difference between CONST and LET
+
+CONST is same as LET except for the fact that when you declare a variable as CONST, it cannot be reassigned.
+
+Example:
+let name = 'Tyler'
+const handle = 'tylermcginnis'
+
+name = 'Tyler McGinnis' // no error on reassignment
+handle = '@tylermcginnis' // ❌ TypeError: Assignment to constant variable.
+
+LET vs CONST
+LET:
+1) Block scoped
+2) ReferenceError when accessing a variable before it's declared
+
+CONST:
+1) block scoped
+2) ReferenceError when accessing a variable before it's declared
+3) Can't be reassigned
+
+----------------------------------------------------------------------------------------------------
+
+HOISTING:
+
+In JavaScript, a variable can be declared after it has been used. This is called hoisting.
+Example 1:
+
+<script>
+x=5
+console.log(x)
+var x;
+</script>
+
+Output: 5
+
+Example 2:
+
+<script>
+var x = 5; // Initialize x
+var y;   // Declare y
+console.log(x + " " + y);
+y = 7;
+</script>
+
+Output:
+5 undefined
+
+----------------------------------------------------------------------------------------------------
+
+PRIMITIVE DATA TYPES IN JAVASCRIPT:
+1) bool
+2) Number
+3) String
+4) Null
+5) undefined
+6) symbol
+
+Everything except for the above are object.
+Objects, Arrays, Functions, etc all fall under object or we can say that all are objects.
+
+Primitive data types in javascript are immutable. That means everytime we change the value, the whole
+variable is recreated. Whereas objects are mutable, that means the values hold by an object can be 
+changed and recreated.
+
+SYNTAX for creating objects:
+const o = new Object() // will create an object
+const o2 = {} // will also create an object of name o2
+const o3 = {fname: 'ajinkya', lname: "datalkar", numbers: {age: 26, phone: 5516895418} // will also create an object with nested object
+
+
+Remeber that objects are mutable and they can be used to store data efficiently.
+Example: (Declare and retrive data from the object)
+
+const o = new Object()
+o.firstName = 'Jordan'
+o.lastName = 'Hayashi'
+o.isTeaching = true
+o.greet = function() { console.log('Hello!') }
+
+console.log(JSON.stringify(o)) // PRINT OUT THE WHOLE OBJECT
+
+const o2 = {}
+o2['firstName'] = 'Jordan'
+const a = 'lastName'
+o2[a] = 'Hayashi'
+
+const o3 = {
+  firstName: 'Jordan',
+  lastName: 'Hayashi',
+  greet: function() {
+    console.log('hi')
+  },
+  address: {
+    street: "Main st.",
+    number: '111'
+  }
+}
+
+console.log(o3.firstName) // PRINT OUT ONLY THE FIRSTNAME
+console.log(o3.address.street) // PRINT OUT AN ELEMENT FROM NESTED OBJECT
+console.log(o3.1) // Doesnt work will return error (key cannot be a number)
+console.log(o3[1]) // PRINT OUT ONLY THE FIRSTNAME (will typecast int 1 to string 1)
+console.log(o3["1"]) // PRINT OUT ONLY THE FIRSTNAME 
+
+Explaination:
+Object "keys" should be in string format, therefore when you try to retrive an object like this:
+"o3.1", it returns an error, because the "1" is an integer. When you write as "o3[1]" or "o3['1']"
+"1" is converted to string. Anything inside square brackets is converted to string.
+
+----------------------------------------------------------------------------------------------------
+
+Object Mutation:
+
+const o = {
+  a: 'a',
+  b: 'b',
+  obj: {
+    key: 'key',
+  },
+}
+
+const o2 = o
+
+o2.a = 'new value'
+
+// o and o2 reference the same object (call by referance, if you change value in o2, value in o will also change)
+// Here o and o2 both have referance to same memory location, so chaning o will also cause o2 to change
+console.log(o.a)
+
+// this shallow-copies o into o3
+// this is same as o and o2, we just use assign function to create it, both works on call by referance and
+// changing o3 will also change o
+const o3 = Object.assign({}, o)
+
+
+// deep copy
+// here we create a completely new copy which refers to a different memory location and changing one wont affect the other
+
+function deepCopy(obj) {
+  // check if vals are objects
+  // if so, copy that object (deep copy)
+  // else return the value
+  const keys = Object.keys(obj)
+
+  const newObject = {}
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    if (typeof obj[key] === 'object') {
+      newObject[key] = deepCopy(obj[key])
+    } else {
+      newObject[key] = obj[key]
+    }
+  }
+
+  return newObject
+}
+
+const o4 = deepCopy(o)
+
+o.obj.key = 'new key!'
+console.log(o4.obj.key)
+// changing values in o4 wont affect o1, o2 or o3.
+----------------------------------------------------------------------------------------------------
+
+1) Arrays work the same way as objects.
+2) In termianl, to check the methods available for a data type, you can type in the chrome terminal:
+"arr.__proto__", this will return the list of methods available for the array of name "arr"
+3) If an array and an object is given same name, say "arr", whenever arr is invoked array will be 
+given precedence over the object.
