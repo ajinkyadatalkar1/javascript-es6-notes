@@ -1,0 +1,59 @@
+JAVASCRIPT NOTES 2:
+---------------------------------------------------------------------------------------------
+CLOSURES:
+
+function makeFunctionArray() {
+  const arr = []
+
+  for (var i = 0; i < 5; i++) {
+    arr.push(function () { console.log(i) })
+  }
+
+  return arr
+}
+
+const functionArr = makeFunctionArray()
+
+// we expect this to log 0, but it doesn't, it gives output 5
+functionArr[0]()
+
+OUTPUT:
+5 //Desire output is 0
+
+
+WHY?:
+When a var is declared in a function, its value isnt block scoped, instead its function scoped,
+meaning that the variable will be retained until the end of the functions life cycle. As a result
+when the loop cycle ends the value of "i" is 5, when "i" is passed as a parameter, its value isnt
+hard coded, insted it is referenced from the current value of "i" or value of i at the end.
+As a result we get an output "5".
+
+*********************************
+HOWEVER: (above example using let)
+
+function makeFunctionArray() {
+  const arr = []
+
+  for (let i = 0; i < 5; i++) {
+    arr.push(function () { console.log(i) })
+  }
+
+  return arr
+}
+
+const functionArr = makeFunctionArray()
+
+// we get the expected output. It gives output 0
+functionArr[0]()
+
+OUTPUT:
+0
+
+WHY?:
+"let" is block scoped, its life cycle is until the loop ends or from this "{" to  "}".
+As a result when "i" is passed as a parameter, its value is hardcoded and not referenced as the maximum
+value of "i" at the end of the loop.
+
+*********************************
+---------------------------------------------------------------------------------------------
+
