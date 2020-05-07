@@ -57,3 +57,74 @@ value of "i" at the end of the loop.
 *********************************
 ---------------------------------------------------------------------------------------------
 
+IIFE(Immediately invoked function expression):
+
+1) It is a function that gets invoked immediately.
+2) Create closures.
+3) Does not add to or modify the global object.
+
+
+*********************************
+// Example 1:
+// this creates the same closure as in 1-closureExample.js, but doesn't pollute
+// the global scope with a function called makeHelloFunction like that example
+const sayHello = (function () {
+  var message = 'Hello!'
+
+  function sayHello() {
+    console.log(message)
+  }
+
+  return sayHello
+})()
+
+
+*********************************
+// Example 2:
+// IIFEs can also be used to create variables that are inaccessible from the global
+// scope
+const counter = (function() {
+  let count = 0
+
+  return {
+    inc: function() { count = count + 1 },
+    get: function() { console.log(count) },
+  }
+})()
+
+counter.get()
+counter.inc()
+counter.get()
+
+Note: 1) The get() and inc() methods are not available globally.
+*********************************
+
+Notes: 1) When you add "()" at the end of function declaration, the function gets invoked immediately.
+       2) In both of the above examples, the sayHello and the counter function is invoked immediately.
+
+---------------------------------------------------------------------------------------------
+Pushing closures into an array:
+1) These are used by libraries in order to prevent the polluting of global scope.
+
+*********************************
+//Example 1:
+// we can create a closure around each anonymous function pushed to the array by
+// turning them into IIFEs
+function makeFunctionArray() {
+  const arr = []
+
+  for (var i = 0; i < 5; i++) {
+    arr.push((function (x) {
+      return function () { console.log(x) }
+    })(i)) // Here we passed a parameter.
+  }
+
+  return arr
+}
+
+const functionArr = makeFunctionArray()
+
+// this now logs 0 as expected
+functionArr[0]()
+---------------------------------------------------------------------------------------------
+
