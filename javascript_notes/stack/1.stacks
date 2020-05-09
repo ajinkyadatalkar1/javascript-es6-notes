@@ -1,0 +1,84 @@
+Exection Stack:
+-----------------------------------------------------------------------------------------------------
+1) Functions invoked by other functions get added to the call stack.
+2) When the function is complete, they are removed and the frames below continues executing.
+3) Stacks work on Last In First Out method (LIFO).
+
+Example:
+
+function addOne(num) {
+  // throw new Error('oh no, an error!')
+  return num+1;
+}
+
+function getNum() {
+  return addOne(10);
+}
+
+function c() {
+  console.log(getNum() + getNum());
+}
+
+c()
+
+Output: 
+22
+
+Explaination:
+1) The function c() is called and loded on top of the stack.
+2) Function c() requires values from the getNum() functions. As a result getNum() function is loaded on the top of the stack.
+3) Function getNum() requires values from function addOne(). As a result addOne() function is added above getNum() function.
+4) The function at the top of the stack is executed and removed from the stack, as a result addOne() gets removed.
+5) After addOne(), the getNum() function is executed and removed and the c() function is removed at the end.
+
+-----------------------------------------------------------------------------------------------------
+
+Throwing Custom errors:
+
+function throwError() {
+        throw new Error("oh no, an Error!");
+}
+
+throwError();
+
+// This will give out an error and print out the stack.
+-----------------------------------------------------------------------------------------------------
+
+function addOne(num) {
+  // throw new Error('oh no, an error!')
+  return num+1;
+}
+
+function getNum() {
+  return addOne(10);
+}
+
+function c() {
+  console.log(getNum() + getNum());
+}
+
+c()
+
+Output:
+	/Users/ajinkyadatalkar/Documents/Studies/react-native/javascript_notes/Practice Programs/stacks.js:3
+  	 throw new Error('oh no, an error!')
+   	 ^
+
+	Error: oh no, an error!
+*      		at addOne (/Users/ajinkyadatalkar/Documents/Studies/react-native/javascript_notes/Practice Programs/stacks.js:3:10)
+**     		at getNum (/Users/ajinkyadatalkar/Documents/Studies/react-native/javascript_notes/Practice Programs/stacks.js:8:10)
+***    		at c (/Users/ajinkyadatalkar/Documents/Studies/react-native/javascript_notes/Practice Programs/stacks.js:12:15)
+    		at Object.<anonymous> (/Users/ajinkyadatalkar/Documents/Studies/react-native/javascript_notes/Practice Programs/stacks.js:15:1)
+    		at Module._compile (internal/modules/cjs/loader.js:1147:30)
+    		at Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)
+    		at Module.load (internal/modules/cjs/loader.js:996:32)
+    		at Function.Module._load (internal/modules/cjs/loader.js:896:14)
+    		at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)
+    		at internal/main/run_main_module.js:17:47
+
+Explaination:
+We see the stacks, for example in the error stack we see, "addOne()" function at the top.
+The second element in the stack os getNum(). c() is the third element in the stack from top.
+Stars indicate order of execution in the stack.
+
+ 

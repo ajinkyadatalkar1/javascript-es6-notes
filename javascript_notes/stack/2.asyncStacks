@@ -1,0 +1,60 @@
+Javascript how are async functions processed?
+-----------------------------------------------------------------------------------------------------
+Javascript is a single threaded, synchronous language. As a result running a function like the
+setTimeout() function will cause all the pages to stall for certain amount of time. As a result
+such functions have to be run on a different thread. Since javascript is a single threaded language
+the question is: where will you bring the other thread from?
+this answer is to load the function on browsers API stack.
+
+How are OBJECTS (variables, methods, etc) are processed in Javascript?
+Answer: We can divide this in 4 parts:
+	1) Event Queue
+	2) Event Loop
+	3) Stack
+	4) API Stack
+
+1) Everything is loaded on the event queue and elements are accessed on First In First Out basis.
+2) The Event loop is spinning each machine cycle, it loads elements at the front of the queue to 
+   the top of the stack every time the stack gets empty.
+3) Elements at the top of the stack are executed first.
+	For Example:
+	c() {
+		...
+	}
+	b(){
+		c();
+	}
+	a(){
+		b();
+	}
+	a();
+
+	In such a case where function a() calls b() and b() calls c(), usually b() will be behind a() in the
+	queue and c() will be behind b(). Now here after a() is loaded, b() will be loaded over a() in the
+	stack and c() will be loaded over b(). c() will be execcuted first, them b() and then a(). However
+	suppose in the queue,there comes an object "f" between say a() and b(), then a() will loaded on top
+	of stack, now a() requries return from b() but there exists an object "F" in the front of queue. In
+	this case "F" will be loaded to the stack and executed, once execution is completed, b() will be loaded
+	and so on.
+
+4) Async functions like "setTimeout()" are loaded to the API stack. API stack runs on a saperate thread.
+   For Example:
+        c() { 
+                setTimeout(console.log("hello"),4000);
+        }
+        b(){ 
+                c();
+        }
+        a(){ 
+                b();
+        }
+        a();
+	
+	
+	In this case when c() is loaded in the stack, it is sent to the API stack of the browser, and the
+	browser keeps track of the timeout function. In the meantime, elements in the queue are loaded on to
+	the stack and executed. Once the timeout is finished, elements in the 'console.log("hello")' is 
+	pushed into the queue from API stack. 'console.log("hello")' is loaded on the stack and executed.
+	Once 'console.log("hello")' has been executed, b() is executed and then a() is executed.
+
+Once the element has been executed from the stack, it is collected by the garbage collector.

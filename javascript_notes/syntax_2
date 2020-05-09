@@ -128,3 +128,12 @@ const functionArr = makeFunctionArray()
 functionArr[0]()
 ---------------------------------------------------------------------------------------------
 
+Throwing Custom errors:
+
+function throwError() {
+	throw new Error("oh no, an Error!");
+}
+
+throwError();
+
+// This will give out an error and print out the stack.
