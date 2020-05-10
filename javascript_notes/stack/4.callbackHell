@@ -1,6 +1,8 @@
-// taken from a personal project of mine
-// https://github.com/jhhayashi/coupon-api/blob/master/controllers/auth.js
-// callback hell is when you nest callback inside callback.
+Javascript callback hell:
+------------------------------------------------------------------------------------------------------------------
+Callback hell is when you nest callback inside another callback.
+For Example:
+
 function login(req, res, callback) {
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) return callback(err)
@@ -24,3 +26,5 @@ function login(req, res, callback) {
     })
   })
 }
+
+

@@ -1,0 +1,74 @@
+Javascript promise:
+-----------------------------------------------------------------------------------------------------------
+Promises are a set of functions that handle callbacks.
+Three of the most widely used functions are:
+	1) fetch()
+	2) then()
+	3) catch()
+
+Syntax:
+*******
+// this doesn't actually do anything, it's just a demo of Promise syntax
+
+const url = ''
+
+fetch(url)
+  .then(function(res) {
+    return res.json()
+  })
+  .then(function(json) {
+    return ({
+      importantData: json.importantData,
+    })
+  })
+  .then(function(data) {
+    console.log(data)
+  })
+  .catch(function(err) {
+    // handle error
+  })
+
+Explaination:
+*************
+1) Fetch will make an asynchronous call to the url.
+2) Promise accepts json values, the ".then(....)" captures response from the server and executes some
+   function depending upon the type of respone. Note we can have multiple types of json responses.
+3) If theres some error contacting the server, say theres a 404 or 403 error, it is captured by the
+   ".catch()" block.
+
+Another Example on promise:
+***************************
+let myFirstPromise = new Promise((resolve, reject) => { // resolve and reject functions passed as parameters
+  // We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
+  // In this example, we use setTimeout(...) to simulate async code. 
+  // In reality, you will probably be using something like XHR or an HTML5 API.
+  setTimeout( function() {
+    resolve("Success!")  // Yay! Everything went well! // resolve function called from parameter
+  }, 250) 
+}) 
+
+myFirstPromise.then((successMessage) => {
+  // successMessage is whatever we passed in the resolve(...) function above.
+  // It doesn't have to be a string, but if it is only a succeed message, it probably will be.
+  console.log("Yay! " + successMessage) 
+});
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+You can pass options to the "fetch()" function which will allow you to use GET and POST methods.
+Syntax:
+let options = {
+  method: 'POST',
+  body: JSON.stringify({
+    jokeName: 'Another bad joke',
+    jokeValue: 'What did the triangle say to the circle? You’re so pointless.'
+  }),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+fetch(url, options)
+.then(....)
+.then(....)
+.catch(....);
