@@ -1,0 +1,32 @@
+<script>
+function resolveAfter2Seconds() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, 2000);
+  });
+}
+
+async function asyncCall() {
+  console.log('calling');
+  const result = await resolveAfter2Seconds();
+  console.log(result);
+  // expected output: 'resolved'
+}
+
+asyncCall();
+//-------------------------------------------------
+
+console.log("fetch().then() using async await");
+
+async function fetchJsonData() {
+try{
+	let call = await fetch("https://jsonplaceholder.typicode.com/comments");
+	let response = await call.json();
+	return response;
+}
+catch(e){console.log(e)}
+}
+
+fetchJsonData().then(data => console.log(data));
+</script>
